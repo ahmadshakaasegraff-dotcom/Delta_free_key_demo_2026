@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DELTA KEY DEMO 2026</title>
+
+<style>
+body{
+ margin:0;
+ font-family:Arial;
+ color:white;
+ text-align:center;
+ overflow:hidden;
+ background:radial-gradient(circle,#0b1020,#000814);
+}
+
+/* NEBULA */
+.nebula{
+ position:fixed;
+ width:100%;
+ height:100%;
+ background:
+ radial-gradient(circle at 20% 30%,#7c3aed66,transparent 40%),
+ radial-gradient(circle at 80% 70%,#22d3ee66,transparent 40%);
+ filter:blur(40px);
+}
+
+/* STARS */
+.star{
+ position:fixed;
+ width:2px;
+ height:2px;
+ background:white;
+ opacity:.8;
+ animation:float linear infinite;
+}
+@keyframes float{
+ from{transform:translateY(0)}
+ to{transform:translateY(-1000px)}
+}
+
+/* CARD */
+.card{
+ position:relative;
+ z-index:2;
+ background:rgba(15,23,42,.85);
+ margin:40px auto;
+ padding:20px;
+ width:90%;
+ max-width:360px;
+ border-radius:20px;
+ box-shadow:0 0 30px #7c3aed;
+}
+
+/* ORIGINAL DELTA LOGO */
+.logo{
+ width:0;
+ height:0;
+ margin:20px auto;
+ border-left:45px solid transparent;
+ border-right:45px solid transparent;
+ border-bottom:80px solid #7c3aed;
+ animation:glow 2s infinite alternate;
+}
+@keyframes glow{
+ from{filter:drop-shadow(0 0 10px #22d3ee)}
+ to{filter:drop-shadow(0 0 30px #7c3aed)}
+}
+
+/* BUTTON */
+.btn{
+ width:100%;
+ padding:14px;
+ margin:10px 0;
+ border:none;
+ border-radius:12px;
+ background:#1f2937;
+ color:white;
+ font-size:15px;
+}
+.btn:active{transform:scale(.95)}
+.btn.done{
+ background:linear-gradient(45deg,#7c3aed,#22d3ee);
+}
+
+/* POPUP AD */
+.popup{
+ display:none;
+ position:fixed;
+ top:0;left:0;
+ width:100%;
+ height:100%;
+ background:rgba(0,0,0,.9);
+ justify-content:center;
+ align-items:center;
+ z-index:5;
+}
+
+.box{
+ background:#0f172a;
+ padding:20px;
+ border-radius:15px;
+ width:280px;
+}
+
+.bar{
+ height:12px;
+ background:#111;
+ border-radius:10px;
+ overflow:hidden;
+}
+.fill{
+ height:100%;
+ width:0%;
+ background:linear-gradient(90deg,#22d3ee,#7c3aed);
+}
+
+/* SUCCESS */
+.success{display:none}
+
+.keybox{
+ background:black;
+ padding:12px;
+ border-radius:12px;
+ word-break:break-all;
+}
+
+.copy{
+ background:linear-gradient(45deg,#22d3ee,#7c3aed);
+ color:white;
+ padding:12px;
+ border:none;
+ width:100%;
+ border-radius:12px;
+}
+
+/* SUPERNOVA FLASH */
+.flash{
+ position:fixed;
+ inset:0;
+ background:white;
+ opacity:0;
+ pointer-events:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="nebula"></div>
+<div class="flash" id="flash"></div>
+
+<script>
+/* generate stars */
+for(let i=0;i<140;i++){
+ let s=document.createElement("div");
+ s.className="star";
+ s.style.left=Math.random()*100+"%";
+ s.style.top=Math.random()*100+"%";
+ s.style.animationDuration=(5+Math.random()*10)+"s";
+ document.body.appendChild(s);
+}
+</script>
+
+<!-- MAIN -->
+<div class="card" id="main">
+
+<div class="logo"></div>
+
+<h2>🌌 DELTA KEY DEMO 2026</h2>
+
+<button class="btn" onclick="showAd()" id="adBtn">
+▶ Watch Ad
+</button>
+
+<button id="verifyBtn" class="btn" onclick="verify()" disabled>
+✔ Verification
+</button>
+
+<div id="progress">Progress 0/2</div>
+
+</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+ <div class="box">
+
+  <h3>Sponsored</h3>
+  <h2>🎮 GAME BONUS</h2>
+  <p>Discover new games & rewards!</p>
+
+  <div class="bar">
+   <div class="fill" id="fill"></div>
+  </div>
+
+  <p id="timer">8</p>
+
+ </div>
+</div>
+
+<!-- SUCCESS -->
+<div class="card success" id="success">
+
+<h2>💥 SUPERNOVA UNLOCKED</h2>
+
+<div class="keybox" id="key">
+FREE_0b0c3e8aadd1b6e92b2d9df54e344983
+</div>
+
+<button class="copy" onclick="copyKey()">COPY KEY</button>
+
+</div>
+
+<script>
+let progress=0;
+
+function flash(){
+ let f=document.getElementById("flash");
+ f.style.opacity=1;
+ setTimeout(()=>f.style.opacity=0,300);
+}
+
+function showAd(){
+ let pop=document.getElementById("popup");
+ let timer=document.getElementById("timer");
+ let fill=document.getElementById("fill");
+ let adBtn=document.getElementById("adBtn");
+
+ pop.style.display="flex";
+ adBtn.disabled=true;
+
+ let t=8,p=0;
+
+ let x=setInterval(()=>{
+  t--; p+=12.5;
+  fill.style.width=p+"%";
+  timer.innerHTML="Closing in "+t+"s";
+
+  if(t<=0){
+   clearInterval(x);
+   pop.style.display="none";
+   progress++;
+   adBtn.innerHTML="✔ Ad Done";
+   adBtn.classList.add("done");
+   update();
+   document.getElementById("verifyBtn").disabled=false;
+  }
+ },1000);
+}
+
+function verify(){
+ let v=document.getElementById("verifyBtn");
+ v.innerHTML="✔ Verified";
+ v.classList.add("done");
+ v.disabled=true;
+ progress++;
+ update();
+}
+
+function update(){
+ document.getElementById("progress").innerHTML=
+ "Progress "+progress+"/2";
+
+ if(progress>=2){
+  flash();
+  document.getElementById("main").style.display="none";
+  document.getElementById("success").style.display="block";
+ }
+}
+
+function copyKey(){
+ let text=document.getElementById("key").innerText;
+ navigator.clipboard.writeText(text);
+ alert("Key copied!");
+}
+</script>
+
+</body>
+</html>
